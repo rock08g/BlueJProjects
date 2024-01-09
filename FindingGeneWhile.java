@@ -1,7 +1,7 @@
 import edu.duke.*;
 
 public class FindingGeneWhile {
-    
+
     public String findGene(String dna, int where){
         int startIndex = dna.indexOf("ATG", where);
         if (startIndex == -1) {
@@ -11,21 +11,21 @@ public class FindingGeneWhile {
         int tagIndex = findGenericTag(dna, startIndex, "TAG");
         int tgaIndex = findGenericTag(dna, startIndex, "TGA");
         int minIndex = Math.min(taaIndex, Math.min(tagIndex, tgaIndex));
-        if (taaIndex == -1 || (tgaIndex != -1 && tgaIndex < taaIndex)) {
+        if (minIndex == -1 || (tgaIndex != -1 && tgaIndex < taaIndex)) {
             minIndex = tgaIndex;
         }
         else {
             minIndex = taaIndex;
         }
-        
+
         if (minIndex == -1 || (tagIndex != -1 && tagIndex < minIndex)) {
             minIndex = tagIndex;
         }
-        
+
         if (minIndex == =1) {
             return "";
         }
-        
+
         return dna.substring(startIndex, minIndex + 3);
     }
 
@@ -80,10 +80,6 @@ public void testFindStopCodon () {
         String stopCodon = "TAA";
         String dna1 = "AATGCGTAATTAATCG";
         String gene1 = findGene(dna1,startCodon,stopCodon);
-        System.out.println("The DNA string is " + dna1);
-        System.out.println("The Gene string is " + gene1);
-        String dna2 = "CGATGGTTGATAAGCCTAAGCTATAA";
-        String gene2 = findGene(dna2,startCodon,stopCodon);
         System.out.println("The DNA string is " + dna2);
         System.out.println("The Gene string is " + gene2);
         String dna3 = "CGATGGTTGATAAGCCTAAGCTAAA";
