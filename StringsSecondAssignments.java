@@ -139,12 +139,26 @@ public class Part2 {
 }
 
 public class Part3 {
-    public int countGenes(String dna) {
+
+    public int findStopCodon(String dna, int startIndex, String stopCodon) {
+        int index = dna.indexOf(stopCodon, startIndex + 3);
+        while (index != -1) {
+            if ((index - startIndex) % 3 == 0) {
+                return index;
+            }
+            else {
+                index = dna.indexOf(stopCodon, startIndex + 1);
+            }
+        }
+        return dna.length();
+    }
+
+    
+    public String findGene (String dna) {
         int startCodon = dna.indexOf("ATG", 0);
         if (startCodon == -1) {
             return "";
         }
-        int count = 0;
         int taaCodon = findStopCodon(dna, startCodon, "TAA");
         int tagCodon = findStopCodon(dna, startCodon, "TAG");
         int tgaCodon = findStopCodon(dna, startCodon, "TGA");
@@ -155,8 +169,64 @@ public class Part3 {
         return dna.substring(startCodon, minIndex + 3);
     }
 
+    public void printAllGenes (String dna) {
+        while (true) {
+            String gene = findGene(dna);
+            if (gene.length() == 0) {
+                break;
+            }
+            System.out.println(gene);
+            dna = dna.substring(gene.length());
+        }
+    }
+    public int countGenes(String dna) {
+        int startCodon = dna.indexOf("ATG", 0);
+        if (startCodon == -1) {
+            return "";
+        }
+        int count = 0;
+        int taaCodon = findStopCodon(dna, startCodon, "TAA");
+        int tagCodon = findStopCodon(dna, startCodon, "TAG");
+        int tgaCodon = findStopCodon(dna, startCodon, "TGA");
+        int minIndex = Math.min(taaCodon, Math.min(tagCodon, tgaCodon));
+        while (minIndex != -1) {
+           count++;
+           startCodon = dna.indexOf("ATG", minIndex);
+           taaCodon = findStopCodon(dna, startCodon, "TAA");
+           tagCodon = findStopCodon(dna, startCodon, "TAG");
+           tgaCodon = findStopCodon(dna, startCodon, "TGA");
+           minIndex = Math.min(taaCodon, Math.min(tagCodon, tgaCodon));
+        }
+        return count;
+    }
+
     public void testCountGenes() {
         int result = countGenes("ATGTAAGATGCCCTAGT");
         System.out.println("There were " + result + " genes in the DNA.");
+    }
+}
+
+Public class TestSummary {
+    public int findGene (String dna) {
+        int startCodon = dna.indexOf("ATG", 0);
+        if (startCodon == -1) {
+            return "";
+        }
+        int minIndex = Math.min(findStopCodon(dna, startCodon, "TAA";
+
+
+    }
+
+    public int findStopCodon(String dna, int startIndex, String stopCodon) {
+        int index = dna.indexOf(stopCodon, startIndex + 3);
+        while (index != -1) {
+            if ((index - startIndex) % 3 == 0) {
+                return index;
+            }
+            else {
+                index = dna.indexOf(stopCodon, startIndex + 1);
+            }
+        }
+        return dna.length();
     }
 }
